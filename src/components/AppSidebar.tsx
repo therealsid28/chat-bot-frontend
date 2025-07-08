@@ -4,14 +4,12 @@ import {
   Files,
   Home,
   Inbox,
-  LogOut,
   Settings,
 } from 'lucide-react';
 
 import {
   Sidebar,
   SidebarContent,
-  SidebarFooter,
   SidebarGroup,
   SidebarGroupContent,
   SidebarGroupLabel,
@@ -20,6 +18,7 @@ import {
   SidebarMenuItem,
 } from '@/components/ui/sidebar';
 import Link from 'next/link';
+import SidebarLogout from './SidebarLogout';
 
 // Menu items.
 const items = [
@@ -77,20 +76,7 @@ export function AppSidebar() {
           </SidebarGroupContent>
         </SidebarGroup>
       </SidebarContent>
-      <SidebarFooter>
-        <SidebarGroupContent>
-          <SidebarMenu>
-            <SidebarMenuItem>
-              <SidebarMenuButton asChild>
-                <Link href="/">
-                  <LogOut />
-                  <span>Logout</span>
-                </Link>
-              </SidebarMenuButton>
-            </SidebarMenuItem>
-          </SidebarMenu>
-        </SidebarGroupContent>
-      </SidebarFooter>
+      <SidebarLogout />
     </Sidebar>
   );
 }

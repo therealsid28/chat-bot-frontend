@@ -1,3 +1,5 @@
+'use client';
+
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import {
@@ -10,11 +12,36 @@ import {
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import Link from 'next/link';
+import { useForm, SubmitHandler } from 'react-hook-form';
+import { saveAuthToLocalStorage, signupUser } from '@/api/auth';
+import { useRouter } from 'next/navigation';
+
+type Inputs = {
+  name: string;
+  email: string;
+  password: string;
+};
 
 export function SignupForm({
   className,
   ...props
 }: React.ComponentProps<'div'>) {
+  const { register, handleSubmit } = useForm<Inputs>();
+  const router = useRouter();
+
+  const onSubmit: SubmitHandler<Inputs> = async (data) => {
+    try {
+      const result = await signupUser(data);
+      saveAuthToLocalStorage(result.user, result.token);
+      router.push('/dashboard/home');
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (error: any) {
+      const errorMsg =
+        error?.response?.data?.message || error.message || 'Signup failed';
+      alert(errorMsg);
+    }
+  };
+
   return (
     <div className={cn('flex flex-col gap-6', className)} {...props}>
       <Card>
@@ -25,11 +52,17 @@ export function SignupForm({
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <form>
+          <form onSubmit={handleSubmit(onSubmit)}>
             <div className="flex flex-col gap-6">
               <div className="grid gap-3">
                 <Label htmlFor="name">Name</Label>
-                <Input id="name" type="name" placeholder="Jon Doe" required />
+                <Input
+                  id="name"
+                  type="name"
+                  placeholder="Jon Doe"
+                  required
+                  {...register('name')}
+                />
               </div>
               <div className="grid gap-3">
                 <Label htmlFor="email">Email</Label>
@@ -38,13 +71,19 @@ export function SignupForm({
                   type="email"
                   placeholder="m@example.com"
                   required
+                  {...register('email')}
                 />
               </div>
               <div className="grid gap-3">
                 <div className="flex items-center">
                   <Label htmlFor="password">Password</Label>
                 </div>
-                <Input id="password" type="password" required />
+                <Input
+                  id="password"
+                  type="password"
+                  required
+                  {...register('password')}
+                />
               </div>
               <div className="flex flex-col gap-3">
                 <Button type="submit" className="w-full cursor-pointer">
