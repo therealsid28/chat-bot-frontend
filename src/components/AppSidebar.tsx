@@ -29,27 +29,27 @@ const items = [
   },
   {
     title: 'Inbox',
-    url: '#',
+    url: '/inbox',
     icon: Inbox,
   },
   {
     title: 'Documents Manager',
-    url: '#',
+    url: '/fileUpload',
     icon: Files,
   },
   {
     title: 'Chatbot Tester',
-    url: '#',
+    url: '/chatbot',
     icon: Bot,
   },
   {
     title: 'Analytics',
-    url: '#',
+    url: '/analytics',
     icon: ChartNoAxesColumnIcon,
   },
   {
     title: 'Settings',
-    url: '#',
+    url: '/settings',
     icon: Settings,
   },
 ];

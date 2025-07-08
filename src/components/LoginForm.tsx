@@ -31,7 +31,11 @@ export function LoginForm({
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
     try {
       const result = await loginUser(data);
-      saveAuthToLocalStorage(result.user, result.token);
+      const userData = {
+        _id: result._id,
+        email: result.email
+      }
+      saveAuthToLocalStorage(userData, result.token);
       router.push('/dashboard/home');
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
