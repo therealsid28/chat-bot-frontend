@@ -5,10 +5,10 @@ import { Input } from './ui/input';
 import { XMarkIcon, ChatBubbleLeftRightIcon } from '@heroicons/react/24/solid';
 import { useAuth } from '@/contexts/AuthContext';
 const SAMPLE_QUERIES = [
-  "Tell me about the skills of Vinayak Jat",
-  "What projects has Vinayak Jat worked on?",
-  "List the achievements of Vinayak Jat",
-  "Describe Vinayak Jat's experience in AI",
+  "Tell me about Sharda Global School.",
+  "What is the Directors Message?",
+  "What is the chairman's Message?",
+  "What is the curiculum structure of Sharda Global School?",
 ];
 
 function getTime() {
