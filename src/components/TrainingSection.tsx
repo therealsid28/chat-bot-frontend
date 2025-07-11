@@ -146,7 +146,7 @@ const TrainingSection: React.FC = () => {
   const handleDelete = async (fileId: string) => {
     setDeletingId(fileId);
     try {
-      const res = await fetch(`http://localhost:3001/api/v1/files/${fileId}`, {
+      const res = await fetch(`http://localhost:4001/api/v1/files/${fileId}`, {
         method: 'DELETE',
       });
       if (res.ok) {

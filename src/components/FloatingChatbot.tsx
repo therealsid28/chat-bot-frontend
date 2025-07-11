@@ -41,7 +41,7 @@ const FloatingChatbot: React.FC = () => {
     setLoading(true);
     setShowSamples(false);
     try {
-      const res = await fetch("http://localhost:3001/api/v1/chat/respond", {
+      const res = await fetch("http://localhost:4001/api/v1/chat/respond", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ userPrompt: userMessage.text, userId: USER_ID }),
