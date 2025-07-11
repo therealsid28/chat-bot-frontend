@@ -1,6 +1,6 @@
 // FileUploadPage.tsx
 "use client"
-import React, { useState, ChangeEvent, FormEvent, useEffect } from 'react';
+import React, { useState, ChangeEvent, FormEvent, useEffect, useCallback } from 'react';
 import { AppSidebar } from "../../components/AppSidebar"
 import {SidebarProvider} from "../../components/ui/sidebar"
 import { getAuthFromLocalStorage } from '@/api/auth';
@@ -26,7 +26,7 @@ const FileUploadPage: React.FC = () => {
   const [uploading, setUploading] = useState(false);
   const [message, setMessage] = useState('');
   const [error, setError] = useState('');
-  const [uploadedFiles, setUploadedFiles] = useState<any[]>([]);
+  const [uploadedFiles, setUploadedFiles] = useState<Array<{ id: string; originalName?: string; url?: string; createdAt?: string }>>([]);
   const [activeTab, setActiveTab] = useState('file');
   const [link, setLink] = useState('');
   const [text, setText] = useState('');
@@ -36,14 +36,14 @@ const FileUploadPage: React.FC = () => {
   const auth = getAuthFromLocalStorage();
   const userId = auth?.user?._id || auth?.user?.id || '';
 
-  const fetchAndSetUserFiles = async () => {
+  const fetchAndSetUserFiles = useCallback(async () => {
     if (!userId) return;
     try {
       const files = await fetchUserFiles(userId);
       console.log(files);
       setUploadedFiles(files);
-    } catch (err) { }
-  };
+    } catch { }
+  }, [userId]);
 
   // Filter files based on search query
   const filteredFiles = uploadedFiles.filter(file => 
@@ -55,7 +55,7 @@ const FileUploadPage: React.FC = () => {
     if (userId) {
       fetchAndSetUserFiles();
     }
-  }, [userId]);
+  }, [userId, fetchAndSetUserFiles]);
 
   const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files.length > 0) {
@@ -153,7 +153,7 @@ const FileUploadPage: React.FC = () => {
       } else {
         setError(data.message || 'Upload failed.');
       }
-    } catch (err) {
+    } catch {
       setError('An error occurred during upload.');
     } finally {
       setUploading(false);
@@ -210,7 +210,7 @@ const FileUploadPage: React.FC = () => {
             <svg className="w-20 h-20 text-purple-200" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-4.35-4.35M11 19a8 8 0 100-16 8 8 0 000 16z" /></svg>
           </div>
           <h2 className="text-2xl font-bold text-white mb-2 tracking-tight drop-shadow">No files found</h2>
-          <p className="text-lg text-gray-300 mb-6 font-medium tracking-wide">No files match your search query "{searchQuery}"</p>
+          <p className="text-lg text-gray-300 mb-6 font-medium tracking-wide">No files match your search query &quot;{searchQuery}&quot;</p>
           <button className="bg-purple-600 hover:bg-purple-700 text-white font-semibold px-6 py-3 rounded-lg flex items-center gap-2 text-lg shadow-lg tracking-wide" onClick={() => setSearchQuery('')}>
             <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
             Clear Search
@@ -235,7 +235,7 @@ const FileUploadPage: React.FC = () => {
                   View
                 </a>
                 <div className="text-purple-400 text-sm mt-2 font-medium tracking-wide">
-                  • {new Date(file.createdAt).toLocaleString()}
+                  • {file.createdAt ? new Date(file.createdAt).toLocaleString() : 'Unknown date'}
                 </div>
               </div>
             ))}

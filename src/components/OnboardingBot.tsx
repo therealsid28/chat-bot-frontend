@@ -26,7 +26,7 @@ const OnboardingBot: React.FC<OnboardingBotProps> = ({ onStartOnboarding }) => {
           Welcome to Your Dashboard!
         </Typography>
         <Typography variant="body1" sx={{ mb: 3 }}>
-          Let's get you started with a quick tour of your new dashboard.
+          Let&apos;s get you started with a quick tour of your new dashboard.
         </Typography>
         <Button variant="contained" onClick={onStartOnboarding}>
           Start Onboarding

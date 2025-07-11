@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef } from 'react';
 import {
-  Box, Typography, useMediaQuery, useTheme, Paper, Divider,
+  Box, Typography, useTheme, Paper, Divider,
   IconButton, Button, Avatar, LinearProgress, Stack, CircularProgress, alpha
 } from '@mui/material';
 import { Line } from 'react-chartjs-2';
@@ -28,14 +28,12 @@ import { gsap } from 'gsap';
 import Chatbot from './Chatbot';
 import LowConfidence from './LowConfidence';
 import Analytics from './Analytics';
-import Sidebar from './Sidebar';
 import AccessibilityPanel from './AccessibilityPanel';
 import DocumentManager from './DocumentManager';
 import ChatbotBuilder from './ChatbotBuilder';
-import Header from './Header';
 import SubscriptionManagement from './SubscriptionManagement';
-import OnboardingBot from './OnboardingBot';
-import { useThemeMode } from './Accessibility';
+// import OnboardingBot from './OnboardingBot';
+// import { useThemeMode } from './Accessibility';
 
 ChartJS.register(
   CategoryScale, LinearScale, BarElement, Title, ChartTooltip,
@@ -48,19 +46,19 @@ const COLLAPSED_WIDTH = 72;
 
 export default function DashboardStats() {
   const theme = useTheme();
-  const { mode } = useThemeMode();
+  // const { mode } = useThemeMode();
 
-  const isDarkMode = mode === 'dark';
-  const isMobileView = useMediaQuery(theme.breakpoints.down('md'));
+  // const isDarkMode = mode === 'dark';
+  // const isMobileView = useMediaQuery(theme.breakpoints.down('md'));
 
-  const [lowConfidenceQueries, setLowConfidenceQueries] = useState<any[]>([]);
+  const [lowConfidenceQueries, setLowConfidenceQueries] = useState<Array<{ [key: string]: unknown }>>([]);
   const [activeTab, setActiveTab] = useState('');
-  const [isSidebarExpanded, setIsSidebarExpanded] = useState(true);
+  const [isSidebarExpanded] = useState(true);
   const [isMobile, setIsMobile] = useState(false);
-  const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false);
-  const [showOnboardingBot, setShowOnboardingBot] = useState(true);
+  // const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false);
+  // const [showOnboardingBot, setShowOnboardingBot] = useState(true);
   const [showWelcomeBanner, setShowWelcomeBanner] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
+  // const [isLoading, setIsLoading] = useState(false);
 
   const bgColor = '#000000'; // Always use dark theme
   const accentColor = '#7C3AED';
@@ -97,7 +95,7 @@ export default function DashboardStats() {
   useEffect(() => {
     const handleResize = () => {
       setIsMobile(window.innerWidth < MOBILE_BREAKPOINT);
-      if (window.innerWidth >= MOBILE_BREAKPOINT) setMobileSidebarOpen(false);
+      // if (window.innerWidth >= MOBILE_BREAKPOINT) setMobileSidebarOpen(false);
     };
     handleResize();
     window.addEventListener('resize', handleResize);
@@ -150,15 +148,15 @@ export default function DashboardStats() {
     };
   }, []);
 
-  useEffect(() => {
-    const onboardingComplete = localStorage.getItem('onboardingComplete') === 'true';
-    setShowOnboardingBot(!onboardingComplete);
-    if (process.env.NODE_ENV === 'development') {
-      (window as any).toggleOnboarding = () => {
-        setShowOnboardingBot(prev => !prev);
-      };
-    }
-  }, []);
+  // useEffect(() => {
+  //   const onboardingComplete = localStorage.getItem('onboardingComplete') === 'true';
+  //   setShowOnboardingBot(!onboardingComplete);
+  //   if (process.env.NODE_ENV === 'development') {
+  //     (window as { toggleOnboarding?: () => void }).toggleOnboarding = () => {
+  //       setShowOnboardingBot((prev: boolean) => !prev);
+  //     };
+  //   }
+  // }, []);
 
   const confidenceData = {
     labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
@@ -207,7 +205,7 @@ export default function DashboardStats() {
           drawBorder: false,
         },
         ticks: {
-          callback: (value: any) => value + '%',
+          callback: (value: string | number) => value + '%',
         }
       },
       x: {
@@ -223,12 +221,12 @@ export default function DashboardStats() {
     },
   };
 
-  const handleLowConfidence = (query: any) => setLowConfidenceQueries(prev => [...prev, query]);
+  const handleLowConfidence = (query: { [key: string]: unknown }) => setLowConfidenceQueries(prev => [...prev, query]);
   const handleResolveQuery = (index: number) => setLowConfidenceQueries(prev => prev.filter((_, i) => i !== index));
-  const handleAddTrainingData = (query: string, response: string) => {
-    setIsLoading(true);
+  const handleAddTrainingData = (query: string) => {
+    // setIsLoading(true);
     setTimeout(() => {
-      setIsLoading(false);
+      // setIsLoading(false);
       handleResolveQuery(lowConfidenceQueries.findIndex(q => q.question === query));
     }, 1000);
   };
@@ -237,7 +235,7 @@ export default function DashboardStats() {
   const handleViewLowConfidence = () => setActiveTab('low-confidence');
   const handleAddTraining = () => setActiveTab('documents');
   const handleAdjustThreshold = () => alert("Confidence threshold adjustment UI would appear here.");
-  const handleStartOnboarding = () => setShowOnboardingBot(false);
+  // const handleStartOnboarding = () => setShowOnboardingBot(false);
 
   return (
     <Box sx={{ display: 'flex', minHeight: '100vh' }}>
@@ -312,7 +310,7 @@ export default function DashboardStats() {
                     Welcome back, Admin!
                   </Typography>
                   <Typography variant="h6" sx={{ mb: 2, opacity: 0.9, fontWeight: 400 }}>
-                    Monitor your assistant's performance and fine-tune with confidence.
+                    Monitor your assistant&apos;s performance and fine-tune with confidence.
                   </Typography>
                   <Box 
                     sx={{

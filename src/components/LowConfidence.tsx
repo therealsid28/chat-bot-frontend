@@ -1,13 +1,13 @@
 import React from 'react';
-import { Box, Typography, Paper, Button } from '@mui/material';
+import { Box, Typography, Paper } from '@mui/material';
 
 interface LowConfidenceProps {
-  queries: any[];
+  queries: Array<{ [key: string]: unknown }>;
   onResolve?: (index: number) => void;
   onAddTraining?: (query: string, response: string) => void;
 }
 
-const LowConfidence: React.FC<LowConfidenceProps> = ({ queries, onResolve, onAddTraining }) => {
+const LowConfidence: React.FC<LowConfidenceProps> = ({ queries }) => {
   return (
     <Box sx={{ p: 3 }}>
       <Typography variant="h4" gutterBottom>

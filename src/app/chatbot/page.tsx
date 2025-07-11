@@ -4,14 +4,8 @@ import { AppSidebar } from "../../components/AppSidebar"
 import { SidebarProvider } from "../../components/ui/sidebar"
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import { useRouter } from "next/navigation";
-import { getAuthFromLocalStorage } from "@/api/auth";
+// import { useRouter } from "next/navigation";
+// import { getAuthFromLocalStorage } from "@/api/auth";
 
 const USER_ID = "686d46d6938bf2cfabc0c797";
 const SAMPLE_QUERIES = [
@@ -27,7 +21,7 @@ function getTime() {
 }
 
 export default function ChatbotPage() {
-  const router = useRouter();
+  // const router = useRouter();
   // React.useEffect(() => {
   //   const auth = getAuthFromLocalStorage();
   //   if (auth && auth.user && auth.token) {
@@ -94,25 +88,25 @@ export default function ChatbotPage() {
     setShowSamples(false);
   };
 
-  const handleClear = () => {
-    setMessages([
-      {
-        sender: "bot",
-        text: "Hi! Ask me anything about Vinayak Jat. Try one of the sample queries above!",
-        time: getTime(),
-        confidence: 100,
-      },
-    ]);
-    setInput("");
-    setShowSamples(true);
-  };
+  // const handleClear = () => {
+  //   setMessages([
+  //     {
+  //       sender: "bot",
+  //       text: "Hi! Ask me anything about Vinayak Jat. Try one of the sample queries above!",
+  //       time: getTime(),
+  //       confidence: 100,
+  //     },
+  //   ]);
+  //   setInput("");
+  //   setShowSamples(true);
+  // };
 
-  const handleRefresh = () => {
-    if (messages.length > 1) {
-      setInput(messages[messages.length - 2]?.text || "");
-      setShowSamples(false);
-    }
-  };
+  // const handleRefresh = () => {
+  //   if (messages.length > 1) {
+  //     setInput(messages[messages.length - 2]?.text || "");
+  //   setShowSamples(false);
+  //   }
+  // };
 
   return (
     <SidebarProvider>

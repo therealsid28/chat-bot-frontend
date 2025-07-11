@@ -24,7 +24,7 @@ const Sidebar: React.FC<SidebarProps> = ({
   activeTab,
   setActiveTab,
   isExpanded,
-  toggleSidebar,
+  // toggleSidebar,
   isMobile,
   mobileOpen,
   setMobileOpen

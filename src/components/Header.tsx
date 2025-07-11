@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, Typography, IconButton, AppBar, Toolbar } from '@mui/material';
+import { Typography, IconButton, AppBar, Toolbar } from '@mui/material';
 import { Menu as MenuIcon } from '@mui/icons-material';
 
 interface HeaderProps {

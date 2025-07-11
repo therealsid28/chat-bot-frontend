@@ -2,10 +2,10 @@ import React from 'react';
 import { Box, Typography, Paper } from '@mui/material';
 
 interface ChatbotProps {
-  onLowConfidence?: (query: any) => void;
+  onLowConfidence?: (query: { [key: string]: unknown }) => void;
 }
 
-const Chatbot: React.FC<ChatbotProps> = ({ onLowConfidence }) => {
+const Chatbot: React.FC<ChatbotProps> = () => {
   return (
     <Box sx={{ p: 3 }}>
       <Typography variant="h4" gutterBottom>

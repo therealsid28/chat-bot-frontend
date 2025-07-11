@@ -2,10 +2,10 @@ import React from 'react';
 import { Box, Typography, Paper } from '@mui/material';
 
 interface AnalyticsProps {
-  queries: any[];
+  queries: Array<{ [key: string]: unknown }>;
 }
 
-const Analytics: React.FC<AnalyticsProps> = ({ queries }) => {
+const Analytics: React.FC<AnalyticsProps> = () => {
   return (
     <Box sx={{ p: 3 }}>
       <Typography variant="h4" gutterBottom>
