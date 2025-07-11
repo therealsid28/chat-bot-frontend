@@ -15,6 +15,7 @@ import Link from 'next/link';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { loginUser, saveAuthToLocalStorage } from '@/api/auth';
 import { useRouter } from 'next/navigation';
+import { useAuth } from '@/contexts/AuthContext';
 
 type Inputs = {
   email: string;
@@ -27,6 +28,7 @@ export function LoginForm({
 }: React.ComponentProps<'div'>) {
   const { register, handleSubmit } = useForm<Inputs>();
   const router = useRouter();
+  const { login } = useAuth();
 
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
     try {
@@ -36,7 +38,8 @@ export function LoginForm({
         email: result.email
       }
       saveAuthToLocalStorage(userData, result.token);
-      router.push('/dashboard/home');
+      login(userData, result.token);
+      router.push('/');
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
       const errorMsg =

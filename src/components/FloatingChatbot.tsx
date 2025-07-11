@@ -3,8 +3,7 @@ import React, { useState, useRef } from 'react';
 import { Button } from './ui/button';
 import { Input } from './ui/input';
 import { XMarkIcon, ChatBubbleLeftRightIcon } from '@heroicons/react/24/solid';
-
-const USER_ID = "686d46d6938bf2cfabc0c797";
+import { useAuth } from '@/contexts/AuthContext';
 const SAMPLE_QUERIES = [
   "Tell me about the skills of Vinayak Jat",
   "What projects has Vinayak Jat worked on?",
@@ -18,6 +17,7 @@ function getTime() {
 }
 
 const FloatingChatbot: React.FC = () => {
+  const { user } = useAuth();
   const [open, setOpen] = useState(false);
   const [messages, setMessages] = useState([
     {
@@ -41,10 +41,10 @@ const FloatingChatbot: React.FC = () => {
     setLoading(true);
     setShowSamples(false);
     try {
-      const res = await fetch("http://localhost:4001/api/v1/chat/respond", {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/v1/chat/respond`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ userPrompt: userMessage.text, userId: USER_ID }),
+        body: JSON.stringify({ userPrompt: userMessage.text, userId: user?._id || "" }),
       });
       const data = await res.json();
       console.log(data);

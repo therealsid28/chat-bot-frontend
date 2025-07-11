@@ -15,6 +15,7 @@ import Link from 'next/link';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { saveAuthToLocalStorage, signupUser } from '@/api/auth';
 import { useRouter } from 'next/navigation';
+import { useAuth } from '@/contexts/AuthContext';
 
 type Inputs = {
   name: string;
@@ -28,12 +29,18 @@ export function SignupForm({
 }: React.ComponentProps<'div'>) {
   const { register, handleSubmit } = useForm<Inputs>();
   const router = useRouter();
+  const { login } = useAuth();
 
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
     try {
       const result = await signupUser(data);
-      saveAuthToLocalStorage(result.user, result.token);
-      router.push('/dashboard/home');
+      const userData = {
+        _id: result.user._id,
+        email: result.user.email
+      };
+      saveAuthToLocalStorage(userData, result.token);
+      login(userData, result.token);
+      router.push('/');
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
       const errorMsg =

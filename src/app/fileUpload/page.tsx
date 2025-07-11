@@ -3,7 +3,7 @@
 import React, { useState, ChangeEvent, FormEvent, useEffect, useCallback } from 'react';
 import { AppSidebar } from "../../components/AppSidebar"
 import {SidebarProvider} from "../../components/ui/sidebar"
-import { getAuthFromLocalStorage } from '@/api/auth';
+import { useAuth } from '@/contexts/AuthContext';
 
 const TABS = [
   { key: 'file', label: 'Document' },
@@ -22,6 +22,7 @@ const fetchUserFiles = async (userId: string) => {
 };
 
 const FileUploadPage: React.FC = () => {
+  const { user } = useAuth();
   const [files, setFiles] = useState<File[]>([]);
   const [uploading, setUploading] = useState(false);
   const [message, setMessage] = useState('');
@@ -33,8 +34,7 @@ const FileUploadPage: React.FC = () => {
   const [showModal, setShowModal] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
 
-  const auth = getAuthFromLocalStorage();
-  const userId = auth?.user?._id || auth?.user?.id || '';
+  const userId = user?._id || '';
 
   const fetchAndSetUserFiles = useCallback(async () => {
     if (!userId) return;
@@ -314,7 +314,8 @@ const FileUploadPage: React.FC = () => {
                     </svg>
                     <div className="text-lg text-purple-200 mb-1 font-semibold">Website URL</div>
                     <div className="text-sm text-purple-300 mb-4 text-center">Enter a website URL to extract and process its content</div>
-                    <input 
+                    <input
+                    style={{color: "blue"}}
                       type="url" 
                       className="w-full rounded-lg bg-[#18181b] border border-purple-700 p-3 text-purple-200 placeholder:text-purple-400 focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20 transition-all duration-200" 
                       placeholder="https://example.com" 

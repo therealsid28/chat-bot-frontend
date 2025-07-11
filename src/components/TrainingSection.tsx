@@ -1,7 +1,7 @@
 // TrainingSection.tsx
 "use client"
 import React, { useState, ChangeEvent, FormEvent, useEffect, useCallback } from 'react';
-import { getAuthFromLocalStorage } from '@/api/auth';
+import { useAuth } from '@/contexts/AuthContext';
 import { EyeIcon, TrashIcon } from '@heroicons/react/24/outline';
 
 const TABS = [
@@ -21,6 +21,7 @@ const fetchUserFiles = async (userId: string) => {
 };
 
 const TrainingSection: React.FC = () => {
+  const { user } = useAuth();
   const [files, setFiles] = useState<File[]>([]);
   const [uploading, setUploading] = useState(false);
   const [message, setMessage] = useState('');
@@ -33,8 +34,7 @@ const TrainingSection: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [deletingId, setDeletingId] = useState<string | null>(null);
 
-  const auth = getAuthFromLocalStorage();
-  const userId = auth?.user?._id || auth?.user?.id || '';
+  const userId = user?._id || '';
 
   const fetchAndSetUserFiles = useCallback(async () => {
     if (!userId) return;
@@ -146,7 +146,7 @@ const TrainingSection: React.FC = () => {
   const handleDelete = async (fileId: string) => {
     setDeletingId(fileId);
     try {
-      const res = await fetch(`http://localhost:4001/api/v1/files/${fileId}`, {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/v1/files/${fileId}`, {
         method: 'DELETE',
       });
       if (res.ok) {
